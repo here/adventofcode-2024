@@ -50,7 +50,7 @@ class Aoc:
         # return self.result
 
 
-wip = Aoc(testing = True)
+wip = Aoc(testing = False)
 
 result = wip.do_aoc()
 
