@@ -1,9 +1,11 @@
 print('howdy')
 
-import re
+import os
+
+input = os.path.dirname(__file__) + '/in'
 
 lines = []
-with open('in') as file:
+with open(input) as file:
     for line in file:
         lines.append(line)
 
