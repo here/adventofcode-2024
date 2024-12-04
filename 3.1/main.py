@@ -1,5 +1,7 @@
 import os
 
+import re
+
 class Aoc:
 
     def __init__(self, testing):
@@ -8,6 +10,8 @@ class Aoc:
         self.testing = testing
         self.lines = []
         self.result = 0
+
+        self.pattern = re.compile('mul\((\d\d?\d?),(\d\d?\d?)\)')
 
         if testing:
             input = os.path.dirname(__file__) + '/test'
@@ -22,13 +26,22 @@ class Aoc:
 
     def do_aoc(self):
         for line in self.lines:
-            self.result += 1
+            self.mul_line(line)
+
+    def mul_line(self, line):
+        muls = self.pattern.findall(line)
+        print(muls)        
         
-        return self.result
+        for pair in muls:
+            self.result += int(pair[0]) * int(pair[1])
+            print(self.result)
 
-wip = Aoc(testing = True)
+        # return self.result
 
-wip.do_aoc()
+
+wip = Aoc(testing = False)
+
+result = wip.do_aoc()
 
 print(wip.result)
 
