@@ -3,7 +3,7 @@ print('howdy')
 import re
 
 lines = []
-with open('test') as file:
+with open('in') as file:
     for line in file:
         lines.append(line)
 
