@@ -21,31 +21,45 @@ class Aoc:
 
         print(len(self.lines))
 
-    def is_safe(self):
+    def is_safe(self, sequence):
+        for i in range(len(sequence)):
+            if i == 0: continue
+            if (sequence[i] - sequence[i-1]) not in [1,2,3]:
+                return False
+            if i == len(sequence)-1:
+                return True
+    
+    def dampen(self, sequence):
+        if self.is_safe(sequence): return True
+
+        # check all lists with one floor removed
+        for i in range(len(sequence)):
+            if self.is_safe(sequence.pop(i)): return True
+        
+        # No safe lists with only one floor removed
+        print('unsafe')
+        return False
+    
+    def count_safe_reports(self):
         for line in self.lines:
             sequence = [int(x) for x in line.split()]
 
             # make all lists ascending
             if sequence[0] > sequence[-1]:
                 sequence.reverse()
-            
+
             print(sequence)
 
-            dampen = 1
-            for i in range(len(sequence)):
-                if i == 0: continue
-                if (sequence[i] - sequence[i-1]) not in [1,2,3]:
-                    if dampen == 0:
-                        break
-                    dampen -= 1
-                    print(dampen)
-                if i == len(sequence)-1:
-                    self.safe += 1
-
-        print(self.safe)
-
-        return(self.safe)
+            if self.is_safe(sequence):
+                print('safe')
+                self.safe += 1
+        
+        return self.safe
 
 wip = Aoc(testing = True)
 
-wip.is_safe()
+safe_report_count = wip.count_safe_reports()
+
+print(safe_report_count)
+
+# wip.dampen()
