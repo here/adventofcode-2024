@@ -56,7 +56,7 @@ class Aoc:
         
         return self.safe
 
-wip = Aoc(testing = True)
+wip = Aoc(testing = False)
 
 safe_report_count = wip.count_safe_reports()
 
