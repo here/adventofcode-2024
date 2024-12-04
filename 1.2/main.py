@@ -10,14 +10,16 @@ with open('in') as file:
 print(len(lines))
 
 spread = []
-left = []
-right = []
-
+left = set()
+right = {}
 
 for line in lines:
     l, r = line.split()
     left.append(l)
-    right.append(r)
+    if r in right:
+        right[r] += 1
+    else:
+        right[r] = 0
 
 left = sorted(left)
 right = sorted(right)
