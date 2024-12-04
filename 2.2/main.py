@@ -1,35 +1,51 @@
-print('howdy')
-
 import os
 
-input = os.path.dirname(__file__) + '/test'
+class Aoc:
 
-lines = []
-with open(input) as file:
-    for line in file:
-        lines.append(line)
+    def __init__(self, testing):
+        print('howdy')
+        
+        self.testing = testing
+        self.lines = []
 
-print(len(lines))
-safe = 0
+        self.safe = 0
+        
+        if testing:
+            input = os.path.dirname(__file__) + '/test'
+        else:
+            input = os.path.dirname(__file__) + '/in'
 
-for line in lines:
-    sequence = [int(x) for x in line.split()]
+        with open(input) as file:
+            for line in file:
+                self.lines.append(line)
 
-    # make all lists ascending
-    if sequence[0] > sequence[-1]:
-        sequence.reverse()
-    
-    print(sequence)
+        print(len(self.lines))
 
-    dampen = 1
-    for i in range(len(sequence)):
-        if i is 0: continue
-        if (sequence[i] - sequence[i-1]) not in [1,2,3]:
-            if dampen == 0:
-                break
-            dampen -= 1
-            print(dampen)
-        if i == len(sequence)-1:
-            safe += 1
+    def is_safe(self):
+        for line in self.lines:
+            sequence = [int(x) for x in line.split()]
 
-print(safe)
+            # make all lists ascending
+            if sequence[0] > sequence[-1]:
+                sequence.reverse()
+            
+            print(sequence)
+
+            dampen = 1
+            for i in range(len(sequence)):
+                if i == 0: continue
+                if (sequence[i] - sequence[i-1]) not in [1,2,3]:
+                    if dampen == 0:
+                        break
+                    dampen -= 1
+                    print(dampen)
+                if i == len(sequence)-1:
+                    self.safe += 1
+
+        print(self.safe)
+
+        return(self.safe)
+
+wip = Aoc(testing = True)
+
+wip.is_safe()
