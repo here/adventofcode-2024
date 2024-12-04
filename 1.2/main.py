@@ -10,13 +10,13 @@ with open('test') as file:
 print(len(lines))
 
 spread = []
-left = set()
+left = []
 right = {}
 rightset = set()
 
 for line in lines:
     l, r = line.split()
-    left.add(l)
+    left.append(l)
     if r in right:
         right[r] += 1
     else:
@@ -29,13 +29,20 @@ for line in lines:
 print(left)
 print(right)
 
+leftset = set(left)
+print(leftset)
+
+rightset = set(right)
+print(rightset)
+
 sumdiff = 0
 mult = 0
 
-print(left & rightset)
+print(leftset & rightset)
 
-for i, l in enumerate(left & rightset):
-    mult = int(l) * int(right[l])
-    sumdiff += mult
+for i, l in enumerate(left):
+    if l in rightset:
+        mult = int(l) * int(right[l])
+        sumdiff += mult
 
 print(sumdiff)
