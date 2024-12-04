@@ -34,7 +34,7 @@ class Aoc:
 
         # check all lists with one floor removed
         for i in range(len(sequence)):
-            if self.is_safe(sequence.pop(i)): return True
+            if self.is_safe(sequence[0:i] +sequence[i+1:]): return True
         
         # No safe lists with only one floor removed
         print('unsafe')
@@ -50,7 +50,7 @@ class Aoc:
 
             print(sequence)
 
-            if self.is_safe(sequence):
+            if self.dampen(sequence):
                 print('safe')
                 self.safe += 1
         
