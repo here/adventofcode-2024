@@ -2,7 +2,7 @@ print('howdy')
 
 import os
 
-input = os.path.dirname(__file__) + '/test'
+input = os.path.dirname(__file__) + '/in'
 
 lines = []
 with open(input) as file:
