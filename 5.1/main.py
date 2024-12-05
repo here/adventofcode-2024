@@ -17,6 +17,7 @@ class Aoc:
 
         self.order_after = {}
         self.order_before = {}
+        self.updatelist = []
 
         if testing:
             input = os.path.dirname(__file__) + '/test'
@@ -31,8 +32,8 @@ class Aoc:
 
     def do_aoc(self):
 
-        for i, line in enumerate(self.lines):
-            self.result += 1
+        # for i, line in enumerate(self.lines):
+        #     self.result += 1
 
         print(self.lines)
 
@@ -43,9 +44,14 @@ class Aoc:
 
         print(self.updates)
 
-        self.build_order()
+        self.build_orders()
+        self.build_updates()
+        
+        for update in self.updatelist:
+            if self.assert_print(update):
+                self.result += update[len(update)//2]
 
-    def build_order(self):
+    def build_orders(self):
         for pair in self.order:
             pairlist = pair.split('|')
             pairlist = [ int(x) for x in pairlist ]
@@ -58,17 +64,24 @@ class Aoc:
         print(self.order_after)
         print(self.order_before)
 
-    def assert_print(self):
-        for i, order in enumerate(self.order):
-            continue
-            #pre
-            for pre in self.order[:i]:
-                continue
-            #post
+    def build_updates(self):
+        for update in self.updates:
+            updatelist = update.split(',')
+            self.updatelist.append([ int(x) for x in updatelist ])
+        
+        print(self.updates)
 
-    def assert_pair(self, page, after):
+    def assert_print(self, update):
+        for i, page in enumerate(update):
+            if not self.assert_before(page, update[:i]):
+                return False
+        
+        return True
+
+    def assert_before(self, page, before):
         # Are all values after page a subset of pages that must come after first page
-        return set(after) <= self.order[page]
+        print(before)
+        return set(before) <= self.order_before[page]
 
 
 wip = Aoc(testing = True)
