@@ -67,13 +67,32 @@ class Aoc:
             x_search = x_index + self.compass[d][0]
             y_search = y_index + self.compass[d][1]
             # print((x_search, y_search))
-            if (0 <= x_search <= self.width) and (0 <= y_search <= self.height):
+            if self.is_on_board(x_search, y_search):
                 if self.lines[y_search][x_search] == 'M':
                     self.look_line(x_index, y_index, d)
     
-    def look_line(self, line_index, x_index, direction):
-        print((line_index, x_index, direction))
+    def look_line(self, x_index, y_index, direction):
+        print((x_index, y_index, direction))
+
+        # search for 'A' two steps away        
+        x_search = x_index + self.compass[direction][0] * 2
+        y_search = y_index + self.compass[direction][1] * 2
+        if not self.is_on_board(x_search, y_search): return False
+        if not self.lines[y_search][x_search] == 'A': return False
+
+        # search for 'S' one more step away
+        x_search += self.compass[direction][0]
+        y_search += self.compass[direction][1]
+        if not self.is_on_board(x_search, y_search): return False
+        if not self.lines[y_search][x_search] == 'S': return False
+
+        print((x_index,y_index),(x_search,y_search))
         self.result += 1
+    
+    def is_on_board(self, x, y):
+        # print((x,y))
+        # print((0 <= x <= self.width) and (0 <= y <= self.height))
+        return (0 <= x <= self.width) and (0 <= y <= self.height)
 
 wip = Aoc(testing = True)
 
