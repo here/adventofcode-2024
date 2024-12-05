@@ -84,7 +84,7 @@ class Aoc:
         return set(before) <= self.order_before.get(page, set())
 
 
-wip = Aoc(testing = True)
+wip = Aoc(testing = False)
 
 result = wip.do_aoc()
 
