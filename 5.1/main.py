@@ -81,7 +81,7 @@ class Aoc:
     def assert_before(self, page, before):
         # Are all values after page a subset of pages that must come after first page
         print(before)
-        return set(before) <= self.order_before[page]
+        return set(before) <= self.order_before.get(page, set())
 
 
 wip = Aoc(testing = True)
