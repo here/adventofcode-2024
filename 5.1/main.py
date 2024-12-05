@@ -14,6 +14,8 @@ class Aoc:
         self.order = []
         self.updates = []
 
+        self.order_dict = {}
+
         if testing:
             input = os.path.dirname(__file__) + '/test'
         else:
@@ -38,6 +40,15 @@ class Aoc:
         self.updates = self.lines[empty_line_index + 1:]
 
         print(self.updates)
+
+        self.build_order()
+
+    def build_order(self):
+        for pair in self.order:
+            pairlist = pair.split('|')
+            self.order_dict.update({pairlist[0]: self.order_dict.get(pairlist[0], []) + [pairlist[1]]})
+
+        print(self.order_dict)
 
 wip = Aoc(testing = True)
 
