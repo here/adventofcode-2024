@@ -11,6 +11,9 @@ class Aoc:
         self.lines = []
         self.result = 0
 
+        self.order = []
+        self.updates = []
+
         if testing:
             input = os.path.dirname(__file__) + '/test'
         else:
@@ -18,7 +21,7 @@ class Aoc:
 
         with open(input) as file:
             for line in file:
-                self.lines.append(line)
+                self.lines.append(line.strip())
 
         print(len(self.lines))
 
@@ -26,6 +29,15 @@ class Aoc:
 
         for i, line in enumerate(self.lines):
             self.result += 1
+
+        print(self.lines)
+
+        empty_line_index = self.lines.index('')
+
+        self.order = self.lines[:empty_line_index]
+        self.updates = self.lines[empty_line_index + 1:]
+
+        print(self.updates)
 
 wip = Aoc(testing = True)
 
