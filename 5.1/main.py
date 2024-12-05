@@ -46,9 +46,21 @@ class Aoc:
     def build_order(self):
         for pair in self.order:
             pairlist = pair.split('|')
-            self.order_dict.update({pairlist[0]: self.order_dict.get(pairlist[0], []) + [pairlist[1]]})
+            self.order_dict.update({pairlist[0]: self.order_dict.get(pairlist[0], set()) | set(pairlist[1])})
 
         print(self.order_dict)
+
+    # def assert_print(self):
+    #     for i, order in enumerate(self.order):
+            
+    #         #pre
+    #         for pre in self.order[:i]:
+
+    #         #post
+
+    # def assert_pair(self, page, after):
+    #     return set(after) in self.order[page]
+
 
 wip = Aoc(testing = True)
 
