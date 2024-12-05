@@ -94,7 +94,7 @@ class Aoc:
         # print((0 <= x <= self.width) and (0 <= y <= self.height))
         return (0 <= x <= self.width) and (0 <= y <= self.height)
 
-wip = Aoc(testing = True)
+wip = Aoc(testing = False)
 
 result = wip.do_aoc()
 
