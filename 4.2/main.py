@@ -54,14 +54,14 @@ class Aoc:
 
     def find_xmas(self, line_index, line):
         print(line)
-        xs = [i for i, e, in enumerate(line) if e == 'X']
+        xs = [i for i, e, in enumerate(line) if e == 'A']
         print(xs)
         for x in xs:
             self.look_compass(x, line_index)
     
     def look_compass(self, x_index, y_index):
         # print((x_index, y_index))
-        for d in self.compass:
+        for d in ['ne','se','sw','nw']:
             # print((x_index, y_index))
             # print((d,self.compass[d][0],self.compass[d][1]))
             x_search = x_index + self.compass[d][0]
@@ -69,26 +69,37 @@ class Aoc:
             # print((x_search, y_search))
             if self.is_on_board(x_search, y_search):
                 if self.lines[y_search][x_search] == 'M':
-                    self.look_line(x_index, y_index, d)
+                    self.look_across(x_index, y_index, d)
+                    return # no need to look for second M in cross if one is found
     
-    def look_line(self, x_index, y_index, direction):
+    def look_across(self, x_index, y_index, direction):
         print((x_index, y_index, direction))
 
-        # search for 'A' two steps away        
-        x_search = x_index + self.compass[direction][0] * 2
-        y_search = y_index + self.compass[direction][1] * 2
-        if not self.is_on_board(x_search, y_search): return False
-        if not self.lines[y_search][x_search] == 'A': return False
-
-        # search for 'S' one more step away
-        x_search += self.compass[direction][0]
-        y_search += self.compass[direction][1]
+        # search for 'S' in the other direction by subtracting the primary direction
+        x_search = x_index - self.compass[direction][0]
+        y_search = y_index - self.compass[direction][1]
         if not self.is_on_board(x_search, y_search): return False
         if not self.lines[y_search][x_search] == 'S': return False
 
+        # get third corner
+        mas = []
+        x_search = x_index - self.compass[direction][0]
+        y_search = y_index + self.compass[direction][1]
+        if not self.is_on_board(x_search, y_search): return False
+        mas.append(self.lines[y_search][x_search])
+
+        # fourth corner
+        x_search = x_index + self.compass[direction][0]
+        y_search = y_index - self.compass[direction][1]
+        if not self.is_on_board(x_search, y_search): return False
+        mas.append(self.lines[y_search][x_search])
+
+        print(mas)
+        if 'M' not in mas or 'S' not in mas: return False
+
         print((x_index,y_index),(x_search,y_search))
         self.result += 1
-    
+
     def is_on_board(self, x, y):
         # print((x,y))
         # print((0 <= x <= self.width) and (0 <= y <= self.height))
@@ -98,6 +109,7 @@ wip = Aoc(testing = False)
 
 result = wip.do_aoc()
 
+# length of set since all will be double counted
 print(wip.result)
 
 # wip.dampen()
