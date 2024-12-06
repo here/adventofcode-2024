@@ -18,6 +18,8 @@ class Aoc:
         self.order_after = {}
         self.order_before = {}
         self.updatelist = []
+        self.updates_out = []
+        self.updates_fix = []
 
         if testing:
             input = os.path.dirname(__file__) + '/test'
@@ -50,6 +52,15 @@ class Aoc:
         for update in self.updatelist:
             if self.assert_print(update):
                 self.result += update[len(update)//2]
+            else:
+                self.updates_out.append(update)
+
+        for update in self.updates_out:
+            self.fix_update(update)
+
+        self.result = 0
+        for update in self.updates_fix:
+            self.result += update[len(update)//2]
 
     def build_orders(self):
         for pair in self.order:
@@ -82,6 +93,33 @@ class Aoc:
         # Are all values after page a subset of pages that must come after first page
         print(before)
         return set(before) <= self.order_before.get(page, set())
+
+    def fix_update(self, update):
+        rulesets = {}
+        fixed = []
+        remaining = set(update)
+
+        for page in update:
+            rulesets.update({page: self.order_before.get(page, set())})
+            
+            # ignore any pages not in update
+            rulesets[page] = rulesets[page] & remaining
+        
+        while len(rulesets):
+            nextpage = remaining
+            for page in rulesets:
+                if not rulesets[page] ^ set(fixed):
+                    nextpage = set([page])
+                    break
+                nextpage = nextpage & rulesets[page] # union
+
+            nextpage = nextpage.pop()
+            fixed.append(nextpage)
+            remaining.remove(nextpage)
+            del rulesets[nextpage]
+
+        print(fixed)
+        self.updates_fix.append(fixed)
 
 
 wip = Aoc(testing = False)
